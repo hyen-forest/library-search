@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>도서관 청구기호 빠르게 찾기</title>
+</head>
+<body>
+
+<h2>📚 책 제목 입력 (한 줄에 하나)</h2>
+
+<textarea id="books" rows="10" cols="50" placeholder="예: 강아지똥"></textarea><br><br>
+
+<button onclick="searchBooks()">🔍 검색하기</button>
+
+<h3>👉 결과 (클릭하면 바로 이동)</h3>
+<ul id="result"></ul>
+
+<script>
+function searchBooks() {
+    const books = document.getElementById("books").value
+        .split("\n")
+        .map(b => b.trim())
+        .filter(b => b !== "");
+
+    const result = document.getElementById("result");
+    result.innerHTML = "";
+
+    books.forEach(book => {
+        const url = `https://lib.changwon.go.kr/book/search.php?lib_code=cl&search_keyword=${encodeURIComponent(book)}&search_type=simple`;
+
+        const li = document.createElement("li");
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.target = "_blank";
+        a.textContent = `👉 ${book} 검색하기`;
+
+        li.appendChild(a);
+        result.appendChild(li);
+    });
+}
+</script>
+
+</body>
+</html>
